@@ -2,16 +2,20 @@
 
 	<div class="profile_container">
 		<div style="display: flex;">
-			<div class="portrait">
-				<img src="../../assets/img/club_img/chigua.png" alt="">
+			<div class="portrait" >
+				<router-link to="/profilechange">
+					<img src="../../assets/img/club_img/chigua.png" alt="">
+				</router-link>
+
 			</div>
 			<div class="details">
-				<div class="name">Laboon</div>
-				<div class="faculty">计算机与信息学院</div>
-				<!-- <div class="introduce">个人介绍--------------长风破浪会有时</div> -->
+				<div class="name"><slot name="name"></slot></div>
+				<div class="faculty">院系:<slot name="faculty"></slot></div>
+				<div class="birthday">生日:<slot name="birthday"></slot></div>
+				<div class="connect">联系:<slot name="connect"></slot></div>
 			</div>
 		</div>
-		<div class="introduction">个人介绍</div>
+		<div class="introduction">个人介绍:<slot name="introduction"></slot></div>
 	</div>
 
 
@@ -19,7 +23,16 @@
 
 <script>
 	export default {
-		name: "Profile"
+		name: "Profile",
+		data(){
+			return{
+				
+			}
+		},
+		props:{
+			name:String
+		}
+
 	}
 </script>
 

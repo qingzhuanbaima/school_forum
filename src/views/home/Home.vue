@@ -1,42 +1,78 @@
 <template>
 	<div class="home">
+		<!-- 搜索 -->
+		<div class="search" style="background-color: #FFFFFF;z-index: 10;display: flex;">
+			<div class="logo">+++</div>
+			<nut-searchbar v-model="val" placeText="请输入自定义文案" @focus="focusFun" @input="inputFun" @blur="blurFun"
+				@submit="submitFun" style="margin: 5px 0;"></nut-searchbar>
 
-		<mt-search class="search"  cancel-text="取消" placeholder="搜索">
-		</mt-search>
-
-		<main-top-bar></main-top-bar>
-
-
-		<!-- <div class="top_bar_container">
-			<div class="top_bar">
-				<div class="top_bar_item" index="/sports" :class="top_bar_active()">运动</div>
-				<div class="top_bar_item" index="/study" @click="topbar_click(index)">学习</div>
-				<div class="top_bar_item">影音</div>
-				<div class="top_bar_item">游戏</div>
-				<div class="top_bar_item">动漫</div>
-				<div class="top_bar_item">数码</div>
-				<div class="top_bar_item">其他</div>
-			</div>
-		</div> -->
-
-
-		<div class="view_container">
-			<div class="view">
-				<router-view></router-view>
+			<div class="publish" @click="publish">
+				<img src="../../assets/img/publish.png"
+					style="width: 16px;height: 16px;padding-top: 5px;margin-left: 4px;margin-right: 2px;" />
+				<div style="padding: 8px 0;">发布</div>
 			</div>
 		</div>
 
 
+
+		<!-- 轮播图 -->
+		<div class="swip" style="z-index: 1;">
+			<nut-swiper direction="horizontal" :swiperData="dataItem" :canDragging="false" :paginationVisible="true"
+				:paginationClickable="true" :autoPlay="3000">
+				<div v-for="(item,index) in dataItem" :key="index" class="nut-swiper-slide">
+					<span>page{{item.name}}</span>
+				</div>
+			</nut-swiper>
+		</div>
+
+
+		<!-- 导航栏 -->
+		<div style="position: sticky;top: 50px; background-color: #FFFFFF;">
+			<main-top-bar></main-top-bar>
+		</div>
+
+		<!-- 帖子 -->
+		<div class="view">
+			<router-view></router-view>
+		</div>
 	</div>
 </template>
 
 <script>
 	import MainTopBar from '../../components/common/topbar/MainTopBar.vue'
+
 	export default {
 		name: 'Home',
+		components: {
+
+		},
 		data() {
 			return {
-				value: 'search'
+				screenHeight: document.documentElement.clientHeight,
+				value: 'search',
+				dataItem: [{
+						name: "第一頁"
+					},
+					{
+						name: "第一頁"
+					},
+					{
+						name: "第一頁"
+					},
+					{
+						name: "第一頁"
+					}
+				]
+			}
+		},
+		mounted() {
+			//获取屏幕高度
+			const that = this
+			window.onresize = () => {
+				return (() => {
+					window.fullHeight = document.documentElement.clientHeight
+					that.screenHeight = window.fullHeight
+				})
 			}
 		},
 		methods: {
@@ -50,6 +86,14 @@
 			},
 			topbar_click(index) {
 				this.$router.replace(index)
+			},
+			publish(){
+				this.$router.push({
+					path: '/articlePost',
+					query: {
+						name: 'kobe',
+					}
+				})
 			}
 		},
 		components: {
@@ -62,19 +106,58 @@
 
 <style scoped>
 	.home {
-		/* border: 10px solid #ABABAB; */
+		display: flex;
+		flex-direction: column;
+	}
+
+	.search {
+		height: 49px;
+		width: 100%;
+		position: sticky;
+		top: 0px;
+	}
+
+	.logo {
+		width: 60px;
+		height: 50px;
+	}
+
+	.publish {
+		display: flex;
+		width: 53px;
+		height: 24px;
+		border: 1px solid #656B79;
+		border-radius: 15px;
+		margin: 10px 0;
+		margin-left: 5px;
+	}
+
+	.main_box {
+		position: fixed;
+		top: 50px;
+		overflow: hidden;
+		width: 100%;
+		padding-top: 50px;
+	}
+
+	.main_container {
+		height: auto;
+		display: flex;
+		flex-direction: column;
+		overflow-y: scroll;
 	}
 
 	.view_container {
 		width: 99.5%;
-		height: 666px;
-		position: fixed;
+		height: auto;
+		/* position: fixed; */
 		top: 95px;
 		overflow: hidden;
-		overflow-y: scroll;
+		/* overflow-y: scroll; */
 	}
+
 	.top_bar_container .top_bar {
-	    width: 150%;
+		width: 100%;
 	}
 
 	.view {
@@ -83,40 +166,14 @@
 		flex-direction: column;
 	}
 
-/* 	.top_bar_container {
-		position: fixed;
-		top: 49px;
-		width: 100%;
-		height: auto;
-		background-color: #007AFF;
-		overflow-x: scroll;
-	}
-
-	.top_bar_container::-webkit-scrollbar {
-		display: none;
-	}
-
-	.top_bar {
-		width: 150%;
-		display: flex;
-		scroll-behavior: smooth;
-	}
-
-	.top_bar_item {
-		height: 36px;
-		background-color: #ffffff;
-		border-bottom: 1px solid #656B79;
-		flex: 1;
-		line-height: 36px;
-		text-align: center;
-		font-size: 14px;
-	}
- */
-
-	.mint-search.search {
-		height: 49px;
-		width: 100%;
-		position: fixed;
+	.stickyTop {
 		top: 0;
+		z-index: 10;
+	}
+
+	.tab {
+		height: 30px;
+		line-height: 30px;
+		background-color: greenyellow;
 	}
 </style>

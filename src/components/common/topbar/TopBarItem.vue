@@ -1,9 +1,6 @@
 <template>
 	<!--所有的item都展示同一个图片, 同一个文字-->
 	<div class="top-bar-item" @click="itemClick" :style="activeStyle">
-		<!-- <div v-if="!isActive"><slot name="item-icon"></slot></div>
-    <div v-else><slot name="item-icon-active"></slot></div> -->
-		<!-- <div :style="activeStyle"><slot name="item-text"></slot></div> -->
 		<slot name="item-text"></slot>
 	</div>
 </template>
@@ -33,7 +30,10 @@
 			},
 			activeStyle() {
 				return this.isActive ? {
-					color: this.activeColor
+					color: this.activeColor,
+					fontSize:'18px',
+					borderRadius:'25px',
+					backgroundColor:'#FF6347'
 				} : {}
 			}
 		},
@@ -49,9 +49,8 @@
 	.top-bar-item {
 		flex: 1;
 		text-align: center;
-		height: 36px;
-		line-height: 36pxpx;
+		height: 40px;
+		line-height: 40px;
 		font-size: 14px;
-		
 	}
 </style>

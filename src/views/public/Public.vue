@@ -1,6 +1,6 @@
 <template>
 	<div class="public">
-		<div class="navbar">站务管理</div>
+		<mt-header title="站务管理"></mt-header>
 		<top-bar style="width: 99.5%;">
 			<top-bar-item path="/public/notice" style="width: 99.5%;">
 				<div slot="item-text">学校公告</div>
@@ -35,7 +35,7 @@
 	}
 </script>
 
-<style >
+<style scoped>
 	.navbar {
 		width: 100%;
 		height: 49px;
@@ -47,7 +47,7 @@
 	}
 	
 	.top_bar_container .top_bar {
-	    width: 150%;
+	    width: 100%;
 	}
 	
 	.view_container {

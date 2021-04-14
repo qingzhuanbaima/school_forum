@@ -8,9 +8,11 @@
   },
   "dependencies": {
     "@nutui/nutui": "^2.2.15",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "mint-ui": "^2.2.13",
     "vue": "^2.6.11",
+    "vue-axios": "^3.2.4",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
   },

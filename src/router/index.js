@@ -20,6 +20,8 @@ import Suggestion from '../views/public/Suggestion.vue'
 import Person from '../views/person/Person.vue'
 import ProfileChange from '../components/content/person/ProfileChange.vue'
 
+import ArticlePost from '../components/content/ArticlePost.vue'
+
 
 Vue.use(VueRouter);
 const originalPush = VueRouter.prototype.push
@@ -162,7 +164,20 @@ const routes = [
 	{
 		path: '/profilechange',
 		name: 'ProfileChange',
+		meta: {
+			title: '个人信息',
+			keepAlive: true
+		},
 		component: ProfileChange
+	},
+	{
+		path: '/articlePost',
+		name: 'ArticlePost',
+		meta: {
+			title: '发帖',
+			keepAlive: true
+		},
+		component: ArticlePost
 	}
 	
 ]
