@@ -3,8 +3,7 @@
 		<!-- 搜索 -->
 		<div class="search" style="background-color: #FFFFFF;z-index: 10;display: flex;">
 			<div class="logo">+++</div>
-			<nut-searchbar v-model="val" placeText="请输入自定义文案" @focus="focusFun" @input="inputFun" @blur="blurFun"
-				@submit="submitFun" style="margin: 5px 0;"></nut-searchbar>
+			<nut-searchbar v-model="val" placeText="" style="margin: 10px 0;height: 30px;"></nut-searchbar>
 
 			<div class="publish" @click="publish">
 				<img src="../../assets/img/publish.png"
@@ -18,9 +17,9 @@
 		<!-- 轮播图 -->
 		<div class="swip" style="z-index: 1;">
 			<nut-swiper direction="horizontal" :swiperData="dataItem" :canDragging="false" :paginationVisible="true"
-				:paginationClickable="true" :autoPlay="3000">
+				:paginationClickable="true" :autoPlay="3000" >
 				<div v-for="(item,index) in dataItem" :key="index" class="nut-swiper-slide">
-					<span>page{{item.name}}</span>
+					<img :src="item.imgURL" alt="" style="width: 100%;height: 100%;">
 				</div>
 			</nut-swiper>
 		</div>
@@ -50,17 +49,18 @@
 			return {
 				screenHeight: document.documentElement.clientHeight,
 				value: 'search',
+				val:null,
 				dataItem: [{
-						name: "第一頁"
+						imgURL:'https://tse1-mm.cn.bing.net/th/id/OIP.wfBnTm3bzerie3AzfD_3ngHaEK?w=287&h=180&c=7&o=5&pid=1.7',
 					},
 					{
-						name: "第一頁"
+						imgURL:'https://th.bing.com/th/id/R0ebb84b0fc2a3137700fde8da9c378bd?rik=cMuj3QgPZL%2fbmA&riu=http%3a%2f%2fpic.baike.soso.com%2fp%2f20130708%2f20130708163732-349105602.jpg&ehk=gqcyye3KcKbwhqSKRfr33z74UyA%2f2xrPPXiwMch4ZTY%3d&risl=&pid=ImgRaw',
 					},
 					{
-						name: "第一頁"
+						imgURL:'https://tse1-mm.cn.bing.net/th/id/OIP.-naQYLAfMrYpP478RpPM_QHaEK?w=293&h=180&c=7&o=5&pid=1.7',
 					},
 					{
-						name: "第一頁"
+						imgURL:'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1895710976,3631951770&fm=26&gp=0.jpg',
 					}
 				]
 			}
@@ -115,6 +115,7 @@
 		width: 100%;
 		position: sticky;
 		top: 0px;
+		border-bottom: 1px solid #c8cbce;
 	}
 
 	.logo {
@@ -128,7 +129,7 @@
 		height: 24px;
 		border: 1px solid #656B79;
 		border-radius: 15px;
-		margin: 10px 0;
+		margin: 12px 0;
 		margin-left: 5px;
 	}
 

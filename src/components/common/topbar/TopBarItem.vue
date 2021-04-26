@@ -12,7 +12,7 @@
 			path: String,
 			activeColor: {
 				type: String,
-				default: '#1296DB'
+				default: '#000000'
 			}
 		},
 		data() {
@@ -31,15 +31,19 @@
 			activeStyle() {
 				return this.isActive ? {
 					color: this.activeColor,
-					fontSize:'18px',
-					borderRadius:'25px',
-					backgroundColor:'#FF6347'
+					fontSize: '18px',
+					borderRadius: '25px',
+					backgroundColor: '#26A2FF',
 				} : {}
 			}
 		},
 		methods: {
 			itemClick() {
-				this.$router.replace(this.path)
+				if (this.$route.path != this.path) {
+					this.$router.replace(this.path)
+				} else {
+
+				}
 			}
 		}
 	}

@@ -10,7 +10,7 @@
 			</div>
 			<div class="details">
 				<div class="name"><slot name="name"></slot></div>
-				<div class="faculty">院系:<slot name="faculty"></slot></div>
+				<div class="mail">邮箱:<slot name="mail"></slot></div>
 				<div class="birthday">生日:<slot name="birthday"></slot></div>
 				<div class="connect">联系:<slot name="connect"></slot></div>
 			</div>

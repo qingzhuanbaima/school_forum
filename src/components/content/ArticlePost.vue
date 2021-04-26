@@ -55,14 +55,14 @@
 
 				this.$axios.post('http://localhost:8088/article/articlePost', this.article)
 					.then(function(response) {
-							// if (response.data == 'success') {
-							// 	alert("添加成功")
-							// };
-							console.log(response)
-						})
-					}
+						// if (response.data == 'success') {
+						// 	alert("添加成功")
+						// };
+						console.log(response)
+					})
 			}
 		}
+	}
 </script>
 
 <style>

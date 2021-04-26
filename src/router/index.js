@@ -21,6 +21,7 @@ import Person from '../views/person/Person.vue'
 import ProfileChange from '../components/content/person/ProfileChange.vue'
 
 import ArticlePost from '../components/content/ArticlePost.vue'
+import Login from '../components/common/login/Login.vue'
 
 
 Vue.use(VueRouter);
@@ -178,6 +179,14 @@ const routes = [
 			keepAlive: true
 		},
 		component: ArticlePost
+	},
+	{
+		path: '/login',
+		name: 'Login',
+		meta: {
+			title: '注册登录',
+		},
+		component: Login
 	}
 	
 ]
