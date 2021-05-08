@@ -10,7 +10,12 @@ import Study from '../views/home/Study.vue'
 import Digital from '../views/home/Digital.vue'
 
 import Club from '../views/club/Club.vue'
-import Basketball from '../components/content/club/Basketball.vue'
+import Basketball from '../components/content/club/sports/Basketball.vue'
+import Football from '../components/content/club/sports/Football.vue'
+import Pingpong from '../components/content/club/sports/Pingpong.vue'
+import Tennis from '../components/content/club/sports/Tennis.vue'
+import Run from '../components/content/club/sports/Run.vue'
+import Badminton from '../components/content/club/sports/Badminton.vue'
 
 import Public from '../views/public/Public.vue'
 import Notice from '../views/public/Notice.vue'
@@ -22,7 +27,7 @@ import ProfileChange from '../components/content/person/ProfileChange.vue'
 
 import ArticlePost from '../components/content/ArticlePost.vue'
 import Login from '../components/common/login/Login.vue'
-
+import Article from '../components/content/Article.vue'
 
 Vue.use(VueRouter);
 const originalPush = VueRouter.prototype.push
@@ -35,14 +40,14 @@ VueRouter.prototype.push = function push(location) {
 const routes = [
 	{
 		path: '',
-		redirect: '/home'
+		redirect: '/club'
 	},
 	{
 		path: '/home',
 		name: 'Home',
 		component: Home,
 		meta: {
-			title: '首页',
+			title: '社区',
 			keepAlive: true
 		},
 		children: [{
@@ -104,7 +109,7 @@ const routes = [
 		path: '/club',
 		name: 'Club',
 		meta: {
-			title: '板块',
+			title: '首页',
 			keepAlive: true
 		},
 		component: Club
@@ -163,6 +168,33 @@ const routes = [
 		component: Basketball
 	},
 	{
+		path: '/pingpong',
+		name: 'Pingpong',
+		component: Pingpong
+	},
+	{
+		path: '/football',
+		name: 'Football',
+		component: Football
+	},
+	{
+		path: '/tennis',
+		name: 'Tennis',
+		component: Tennis
+	},
+	{
+		path: '/run',
+		name: 'Run',
+		component: Run
+	},
+	{
+		path: '/badminton',
+		name: 'Badminton',
+		component: Badminton
+	},
+	
+	
+	{
 		path: '/profilechange',
 		name: 'ProfileChange',
 		meta: {
@@ -187,6 +219,14 @@ const routes = [
 			title: '注册登录',
 		},
 		component: Login
+	},
+	{
+		path: '/article',
+		name: 'Article',
+		meta: {
+			title: 'AhpuForum',
+		},
+		component: Article
 	}
 	
 ]

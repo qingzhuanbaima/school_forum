@@ -1,92 +1,14 @@
 <template>
 	<div>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
-		<h2>Sports页面</h2>
+		<div v-for="item in result" @click="toArticle(item.id)">
+			<preview>
+				<div slot="username">{{item.username}}</div>
+				<div slot="title">{{item.title}}</div>
+				<span slot="star" v-bind:starCount="item.star">{{item.star}}</span>
+				<span slot="comment" v-bind:commentCount="item.comment">{{item.comment}}</span>
+			</preview>
+		</div>
 
-		<preview v-for="item in result">
-			<div slot="username">{{item.username}}</div>
-			<div slot="title">{{item.title}}</div>
-			<span slot="star" v-bind:starCount="item.star">{{item.star}}</span>
-			<span slot="comment" v-bind:commentCount="item.comment">{{item.comment}}</span>
-		</preview>
 		<div style="height: 50px;"></div>
 	</div>
 </template>
@@ -103,9 +25,33 @@
 		components: {
 			Preview
 		},
+		methods:{
+			// toArticle(id){
+			// 	this.$router.push({
+			// 		path: '/article',
+			// 		query: {
+			// 			id:id
+			// 		}
+			// 	})
+			// }
+			toArticle(id){
+				this.$router.push({
+					path: '/article',
+					query: {
+						id:id
+					}
+				})
+			}
+		},
 		created() {
 			const _this = this
-			this.$axios.get('http://localhost:8088/article/findAll').then(function(resp) {
+			_this.$axios({
+				method: 'get',
+				url: 'http://localhost:8088/article/label',
+				params: {
+					label: "运动"
+				}
+			}).then(function(resp) {
 				_this.result = resp.data;
 				console.log(_this.result)
 			})

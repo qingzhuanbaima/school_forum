@@ -14,9 +14,9 @@
 </template>
 
 <script>
-	import Preview from '../../components/content/Preview.vue'
+	import Preview from '../../Preview.vue'
 	export default {
-		name: "Movie",
+		name: "Run",
 		data() {
 			return {
 				result: null,
@@ -39,9 +39,9 @@
 			const _this = this
 			_this.$axios({
 				method: 'get',
-				url: 'http://localhost:8088/article/label',
+				url: 'http://localhost:8088/article/club',
 				params: {
-					label: "影音"
+					label: "跑步"
 				}
 			}).then(function(resp) {
 				_this.result = resp.data;

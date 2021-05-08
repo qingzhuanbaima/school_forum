@@ -8,12 +8,8 @@
 			<mt-button slot="right" @click="post">发布</mt-button>
 		</mt-header>
 
-		<!-- 发帖面板 -->
-		<!-- 	<nut-textinput v-model="val" label="用户：" placeholder="请输入内容" :clearBtn="true" :disabled="false" />
-		<nut-textbox :txt-areaH="10"> 输入标题</nut-textbox>
-		<nut-textbox :txt-areaH="10"> </nut-textbox> -->
 		<div class="head">用户</div>
-		<input class="user" placeholder="输入用户" v-model="article.username"></input>
+		<input class="user" placeholder="输入用户" v-model="article.username" readonly="readonly"></input>
 		<div class="head">标题</div>
 		<textarea class="title" maxlength="50" placeholder="输入标题" rows="2" v-model="article.title"></textarea>
 		<div class="head">内容</div>
@@ -29,7 +25,7 @@
 		data() {
 			return {
 				article: {
-					username: this.$route.query.name,
+					username: this.$store.state.user.username,
 					title: null,
 					content: null,
 					article_time: null
@@ -44,21 +40,23 @@
 
 			},
 			post() {
+				const _this=this
 				let yy = new Date().getFullYear();
 				let mm = new Date().getMonth() + 1;
 				let dd = new Date().getDate();
 				let hh = new Date().getHours();
 				let mf = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes();
 				let ss = new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds();
-				this.article.article_time = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss;
+				_this.article.article_time = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss;
 
 
-				this.$axios.post('http://localhost:8088/article/articlePost', this.article)
+				_this.$axios.post('http://localhost:8088/article/articlePost', this.article)
 					.then(function(response) {
-						// if (response.data == 'success') {
-						// 	alert("添加成功")
-						// };
-						console.log(response)
+						if (response.data == 'success') {
+							_this.consol.log("成功")
+							_this.$router.go(-1)
+						}
+						// console.log(response)
 					})
 			}
 		}

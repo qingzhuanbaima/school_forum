@@ -50,7 +50,7 @@
 	}
 </script>
 
-<style>
+<style scoped="scoped">
 	.preview {
 		height: auto;
 		width: 100%;

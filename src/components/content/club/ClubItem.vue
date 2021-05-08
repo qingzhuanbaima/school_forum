@@ -1,6 +1,6 @@
 <template>
-	<div class="club_item" v-on:click="itemClick">
-		<div class="club_img" v-on:click="itemClick">
+	<div class="club_item" >
+		<div class="club_img" >
 			<slot name="club_img"></slot>
 		</div>
 		<div class="club_name">
@@ -13,9 +13,7 @@
 	export default{
 		name:"ClubItem",
 		methods:{
-			itemClick() {
-				this.$router.push('/basketball')
-			}
+			
 		}
 	}
 </script>

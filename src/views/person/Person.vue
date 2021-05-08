@@ -9,35 +9,51 @@
 		</profile>
 		<nut-tab @tab-switch="tabSwitch" style="margin-bottom: 50px;">
 			<nut-tab-panel tab-title="发帖">
-				<div>发帖</div>
-				<div>发帖</div>
-				<div>发帖</div>
-				<div>发帖</div>
-
+				<div v-for="item in article">
+					<delete-cell>
+						<div slot="content">
+							<preview>
+								<div slot="username">{{item.username}}</div>
+								<div slot="title">{{item.title}}</div>
+								<span slot="star" v-bind:starCount="item.star">{{item.star}}</span>
+								<span slot="comment" v-bind:commentCount="item.comment">{{item.comment}}</span>
+							</preview>
+						</div>
+					</delete-cell>
+				</div>
 			</nut-tab-panel>
-			<nut-tab-panel tab-title="回复">回复的帖子</nut-tab-panel>
-			<nut-tab-panel tab-title="点赞">点赞的帖子</nut-tab-panel>
+			<nut-tab-panel tab-title="回复">
+				<div v-for="item in article">
+					<delete-cell>
+						<div slot="content">
+							<comment>
+								<div slot="username">{{item.username}}</div>
+								<div slot="time">{{item.replytime}}</div>
+								<div slot="comment">{{item.comment}}</div>
+							</comment>
+						</div>
+					</delete-cell>
+				</div>
+			</nut-tab-panel>
 		</nut-tab>
-		<mt-cell-swipe title="text" :right="[
-		    {
-		      content: 'Delete',
-		      style: { background: 'red', color: '#fff' },
-		      handler: () => this.$messagebox('delete')
-		    }
-		  ]"></mt-cell-swipe>
+
 	</div>
 </template>
 
 <script>
 	import Profile from './Profile.vue'
 	import ProfileChange from '../../components/content/person/ProfileChange.vue'
+	import Preview from '../../components/content/Preview.vue'
+	import deleteCell from '../../components/common/deleteCell.vue'
+	import Comment from '/src/components/content/comment.vue'
 
 	export default {
 		name: "Person",
 		data() {
 			return {
 				user: this.$store.state.user,
-				article:null
+				article: null,
+				comments: null
 			}
 		},
 		methods: {
@@ -47,6 +63,16 @@
 		},
 		components: {
 			Profile,
+			Preview,
+			deleteCell,
+			Comment
+		},
+		beforeCreate() {
+			if(this.$store.state.user.username===null){
+				this.$router.push({
+					path: '/login',
+				})
+			}
 		},
 		created() {
 			const _this = this
@@ -72,28 +98,37 @@
 
 
 			_this.$axios({
-				method:'get',
-				url:'http://localhost:8088/user/getuser',
-				params:{
-					username:_this.$store.state.user.username
-				}
-			}).then(function(response){
-				console.log(response.data)
-				_this.$store.commit('userLoad',response.data)
-			}),
-			
-			_this.$axios({
-				method:'get',
-				url:'http://localhost:8088/article/user',
-				params:{
-					username:_this.$store.state.user.username
-				}
-			}).then(function(response){
-				
-				// _this.$store.commit('userLoad',response.data)
-				_this.article=response.data,
-				console.log(_this.article)
-			})
+					method: 'get',
+					url: 'http://localhost:8088/user/getuser',
+					params: {
+						username: _this.$store.state.user.username
+					}
+				}).then(function(response) {
+					console.log(response.data)
+					_this.$store.commit('userLoad', response.data)
+				}),
+
+				_this.$axios({
+					method: 'get',
+					url: 'http://localhost:8088/article/user',
+					params: {
+						username: _this.$store.state.user.username
+					}
+				}).then(function(response) {
+					_this.article = response.data,
+						console.log(_this.article)
+				}),
+
+				_this.$axios({
+					method: 'get',
+					url: 'http://localhost:8088/comments/byuser',
+					params: {
+						username: _this.$store.state.user.username
+					}
+				}).then(function(response) {
+					_this.comments = response.data,
+						console.log(_this.comments)
+				})
 		}
 	}
 </script>

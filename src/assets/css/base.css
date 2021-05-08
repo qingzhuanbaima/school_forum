@@ -55,3 +55,6 @@ a {
   float: right;
 }
 
+textarea{
+	outline: none;
+}
