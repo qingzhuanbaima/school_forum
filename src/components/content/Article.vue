@@ -23,8 +23,29 @@
 		<!-- 评论 -->
 		<div class="cmtBar">
 			<div style="padding-left: 10px;">评论</div>
+			<div style="display: flex;margin-left: 60%;">
+				<div style="display: flex;margin-left:10px;">
+					<div><img src="../../assets/img/star/comment.svg" alt=""></div>
+					<div style="line-height: 30px;">
+						<slot name="comment">{{article.comment}}</slot>
+					</div>
+				</div>
+				<div style="display: flex;margin-left:10px;">
+					<div v-if="!star_active" @click="starClick">
+						<img src="../../assets/img/star/star.svg" />
+					</div>
+					<div v-else @click="starClick">
+						<img src="../../assets/img/star/star_active.svg" />
+					</div>
+					<div style="line-height: 30px;">
+						<slot name="star">{{article.star}}</slot>
+					</div>
+				</div>
+				
+			</div>
+
 		</div>
-		
+
 		<div v-for="item in comments">
 			<comment>
 				<div slot="username">{{item.username}}</div>
@@ -33,17 +54,11 @@
 			</comment>
 		</div>
 		<div style="height: 40px;"></div>
-		
+
 		<!-- 评论输入框 -->
 		<div class="addcmt">
-			<nut-textinput 
-			    v-model="mycmt.comment"
-			    placeholder="请输入内容"
-				@focus="onFocus"
-			    :clearBtn="true"
-			    :disabled="false"
-				style="width: 85%;"
-			/>
+			<nut-textinput v-model="mycmt.comment" placeholder="请输入内容" @focus="onFocus" :clearBtn="true"
+				:disabled="false" style="width: 85%;" />
 			<button style="width: 15%;height: auto;" @click="addComment">评论</button>
 		</div>
 	</div>
@@ -51,40 +66,41 @@
 
 <script>
 	import Comment from './comment.vue'
-	
+
 	export default {
 		name: "Article",
-		components:{
+		components: {
 			Comment
 		},
 		data() {
 			return {
 				article: Object,
-				comments:null,
-				mycmt:{
-					cid:null,
-					username:this.$store.state.user.username,
-					aid:this.$route.query.id,
-					comment:null,
-					replytime:null
-				}
+				comments: null,
+				mycmt: {
+					cid: null,
+					username: this.$store.state.user.username,
+					aid: this.$route.query.id,
+					comment: null,
+					replytime: null
+				},
+				star_active: false
 			}
 		},
 		methods: {
 			backOne() {
 				this.$router.go(-1)
 			},
-			
-			onFocus(){
-				if(this.$store.state.user.username===null){
+
+			onFocus() {
+				if (this.$store.state.user.username === null) {
 					this.$router.push({
 						path: '/login',
 					})
 				}
 			},
 			// 发出评论
-			addComment(){
-				const _this=this
+			addComment() {
+				const _this = this
 				let yy = new Date().getFullYear();
 				let mm = new Date().getMonth() + 1;
 				let dd = new Date().getDate();
@@ -92,18 +108,33 @@
 				let mf = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes();
 				let ss = new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds();
 				_this.mycmt.replytime = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss;
-				
-				
+
+
 				_this.$axios.post('http://localhost:8088/comments/addcomment', this.mycmt)
 					.then(function(response) {
 						if (response.data == 'success') {
-							_this.mycmt.comment=null
+							_this.mycmt.comment = null
 							location.reload()
-						}else{
-							
+						} else {
+
 						}
 						// console.log(response)
 					})
+			},
+
+			//点赞
+			starClick() {
+				if (this.star_active == false) {
+					this.star_active = true,
+						this.$axios({
+							method: 'post',
+							url: 'http://localhost:8088/article/star',
+							params: {
+								id: this.$route.query.id
+							}
+						})
+					this.article.star++
+				}
 			}
 		},
 		beforeCreate() {
@@ -123,7 +154,7 @@
 			const _this = this
 			// _this.article=_this.$route.query.item
 			// console.log(_this.$route.query)
-			
+
 			// 取得评论
 			_this.$axios({
 				method: 'get',
@@ -204,11 +235,17 @@
 		-webkit-box-shadow: 0 0 3px #06c;
 		box-shadow: 0 0 3px #06c;
 		background-color: #FFFFFF;
+		display: flex;
 	}
-	
-	
+
+	.cmtBar img {
+		width: 23px;
+		margin: 3px;
+	}
+
+
 	/* 添加评论 */
-	.addcmt{
+	.addcmt {
 		width: 100%;
 		margin: 0 auto;
 		position: fixed;

@@ -1,7 +1,7 @@
 <template>
 	<div id="app" class="wrapper">
 		<router-view />
-		<div v-if="this.$route.path!='/article' && this.$route.path!='/login'" >
+		<div v-if="this.$route.path!='/article' && this.$route.path!='/login' && this.$route.path!='/articlePost'" >
 			<main-tab-bar />
 		</div>
 

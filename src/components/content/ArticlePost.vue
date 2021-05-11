@@ -1,19 +1,41 @@
 <template>
-	<div>
+	<div style="margin-bottom: 50px;">
 		<!-- 顶部 -->
-		<mt-header title="发布帖子">
-			<router-link to="/" slot="left">
-				<mt-button>取消</mt-button>
-			</router-link>
-			<mt-button slot="right" @click="post">发布</mt-button>
-		</mt-header>
+		<div style="position: sticky;top: 0;">
+			<mt-header title="发布帖子">
+				<router-link to="/" slot="left">
+					<mt-button>取消</mt-button>
+				</router-link>
+				<mt-button slot="right" @click="post">发布</mt-button>
+			</mt-header>
+		</div>
+
 
 		<div class="head">用户</div>
-		<input class="user" placeholder="输入用户" v-model="article.username" readonly="readonly"></input>
+		<input class="user" placeholder="请登录" style="border: none;text-indent: 20px;" v-model="article.username"
+			readonly="readonly"></input>
 		<div class="head">标题</div>
-		<textarea class="title" maxlength="50" placeholder="输入标题" rows="2" v-model="article.title"></textarea>
+		<textarea class="title" maxlength="50"
+			style="resize: none;border: 1px solid #1989FA;border-radius: 10px;margin: 0 auto;" placeholder="输入标题"
+			rows="2" v-model="article.title"></textarea>
 		<div class="head">内容</div>
-		<textarea class="content" maxlength="9999" placeholder="输入正文" v-model="article.content"></textarea>
+		<textarea class="content" maxlength="9999" placeholder="输入正文"
+			style="height: 300px;resize: none;border: 1px solid #1989FA;border-radius: 10px;margin: 0 auto;"
+			v-model="article.content"></textarea>
+
+		<!-- <select name="" v-model="article.label" @change="labelChange">
+			<option  v-for="(item,index) in labelList" >{{item.label}}</option>
+		</select> -->
+
+		<nut-cell :showIcon="false" @click.native="show= true">
+			<span slot="title">选择社区</span>
+			<span slot="desc">{{article.label}}--{{article.club}}</span>
+		</nut-cell>
+		<nut-tabselect  :tabList="tabList" :show="show" @close="show = false" @choose="choose"
+			 :multiple="false" :isDefaultSelected="true"></nut-tabselect>
+
+		<nut-imagepicker @imgMsg="imgMsg" :max="9">
+		</nut-imagepicker>
 
 	</div>
 
@@ -28,8 +50,43 @@
 					username: this.$store.state.user.username,
 					title: null,
 					content: null,
+					label: '运动',
+					club: '篮球',
 					article_time: null
-				}
+				},
+
+				mainTitle: "社区",
+				tabList: [{
+					tabTitle: "社区",
+					children: [
+						// 一级tab内容
+						{
+							tabTitle: "运动", // 二级tab标题
+							content: ['篮球', '足球', '乒乓', '羽毛球', '网球', '跑步'],
+						},
+						{
+							tabTitle: "学习",
+							content: ['考研', '高数', '物理', '计算机'],
+						},
+						{
+							tabTitle: "游戏",
+							content: ['英雄联盟', 'CS:GO', '王者荣耀', '绝地求生', '和平精英'],
+						},
+						{
+							tabTitle: "影音",
+							content: ['电影', '追剧', '音乐', '吃瓜', '动漫'],
+						},
+						{
+							tabTitle: "生活",
+							content: ['晒照', '美食', '旅游', '二手闲置'],
+						},
+						{
+							tabTitle: "数码",
+							content: ['手机', '电脑', '相机', '其他数码'],
+						}
+					],
+				}, ],
+				show: false,
 			}
 		},
 		methods: {
@@ -40,7 +97,7 @@
 
 			},
 			post() {
-				const _this=this
+				const _this = this
 				let yy = new Date().getFullYear();
 				let mm = new Date().getMonth() + 1;
 				let dd = new Date().getDate();
@@ -53,11 +110,26 @@
 				_this.$axios.post('http://localhost:8088/article/articlePost', this.article)
 					.then(function(response) {
 						if (response.data == 'success') {
-							_this.consol.log("成功")
 							_this.$router.go(-1)
 						}
-						// console.log(response)
 					})
+			},
+			labelChange() {
+
+			},
+			imgMsg(data) {
+				if (data.code == 1) {
+					alert('upload');
+				}
+				console.log(this.imgList2)
+				console.log(data) //code 1 自动上传  2 不上传只展示图片  3 删除图片  4 预览图片
+			},
+			choose(title, item) {
+				this.article.label=item[0].subTit,
+				this.article.club=item[0].content
+			},
+			showPopup() {
+				this.show = !this.show;
 			}
 		}
 	}

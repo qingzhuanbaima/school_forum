@@ -11,7 +11,7 @@
 			</div>
 		</div>
 		<div class="suggestion">
-			<span style="margin-left: 10px;">留言：</span>
+			<span style="margin-left: 10px;width: 60px;">留言：</span>
 			<slot name="suggestion"></slot>
 		</div>
 	</div>

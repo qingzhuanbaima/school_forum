@@ -23,7 +23,7 @@
 				</div>
 			</nut-tab-panel>
 			<nut-tab-panel tab-title="回复">
-				<div v-for="item in article">
+				<div v-for="item in comments">
 					<delete-cell>
 						<div slot="content">
 							<comment>
@@ -68,7 +68,7 @@
 			Comment
 		},
 		beforeCreate() {
-			if(this.$store.state.user.username===null){
+			if (this.$store.state.user.username === null) {
 				this.$router.push({
 					path: '/login',
 				})
