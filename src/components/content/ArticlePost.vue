@@ -31,19 +31,26 @@
 			<span slot="title">选择社区</span>
 			<span slot="desc">{{article.label}}--{{article.club}}</span>
 		</nut-cell>
-		<nut-tabselect  :tabList="tabList" :show="show" @close="show = false" @choose="choose"
-			 :multiple="false" :isDefaultSelected="true"></nut-tabselect>
+		<nut-tabselect :tabList="tabList" :show="show" @close="show = false" @choose="choose" :multiple="false"
+			:isDefaultSelected="true"></nut-tabselect>
 
-		<nut-imagepicker @imgMsg="imgMsg" :max="9">
-		</nut-imagepicker>
+
+		<!-- <nut-imagepicker @imgMsg="imgMsg" :max="9" :imgList.sync="imgList">
+		</nut-imagepicker> -->
+		<img-picker v-on:imglist="imgpick"></img-picker>
+
 
 	</div>
 
 </template>
 
 <script>
+	import imgPicker from '../common/imgPicker.vue'
 	export default {
 		name: "ArticlePost",
+		components: {
+			imgPicker
+		},
 		data() {
 			return {
 				article: {
@@ -52,8 +59,11 @@
 					content: null,
 					label: '运动',
 					club: '篮球',
-					article_time: null
+					article_time: null,
+					imgpathlist: []
 				},
+
+				imgList: [],
 
 				mainTitle: "社区",
 				tabList: [{
@@ -105,31 +115,56 @@
 				let mf = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes();
 				let ss = new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds();
 				_this.article.article_time = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss;
+				_this.article.imgpathlist = _this.article.imgpathlist.toString()
 
+				console.log(this.imgList)
+				// _this.$axios.post(_this.GLOBAL.BASE_URL + '/article/articlePost', this.article)
+				// 	.then(function(response) {
+				// 		if (response.data == 'success') {
+				// 			console.log(JSON.stringify(_this.imgList))
+				// 			_this.$axios.post(_this.GLOBAL.BASE_URL + '/article/imgsave',_this.imgList )
+				// 				.then(function(response) {
+				// 					if (response.data == 'success') {
 
-				_this.$axios.post('http://localhost:8088/article/articlePost', this.article)
+				// 					}
+				// 				})
+				// 		}
+				// 	})
+
+				_this.$axios.post(_this.GLOBAL.BASE_URL + '/article/articlePost', this.article)
 					.then(function(response) {
-						if (response.data == 'success') {
-							_this.$router.go(-1)
-						}
+						_this.$axios.post(_this.GLOBAL.BASE_URL + '/article/imgsave', _this.imgList)
 					})
+					.then(
+
+					)
+
+				// _this.$axios({
+				// 	method: 'Post',
+				// 	url: 'http://localhost:8088/article/articlePost',
+				// 	params: {
+				// 		article: this.article,
+				// 		// imgList: this.imgList[this.imgList.length-1].id
+				// 	}
+				// }).then(function(response) {
+				// 	console.log(response)
+				// 	if (response.data == 'success') {
+				// 		_this.$router.go(-1)
+				// 	}
+				// })
 			},
 			labelChange() {
 
 			},
-			imgMsg(data) {
-				if (data.code == 1) {
-					alert('upload');
-				}
-				console.log(this.imgList2)
-				console.log(data) //code 1 自动上传  2 不上传只展示图片  3 删除图片  4 预览图片
-			},
 			choose(title, item) {
-				this.article.label=item[0].subTit,
-				this.article.club=item[0].content
+				this.article.label = item[0].subTit
+				this.article.club = item[0].content
 			},
-			showPopup() {
-				this.show = !this.show;
+			imgpick(imglist) {
+				this.imgList = imglist
+				console.log(this.imgList)
+				this.article.imgpathlist.push(this.imgList[this.imgList.length - 1].imgid)
+				console.log(this.article.imgpathlist.toString())
 			}
 		}
 	}

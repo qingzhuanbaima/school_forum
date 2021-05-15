@@ -6,13 +6,17 @@
 		<div class="article_title">
 			<slot name="title"></slot>
 		</div>
+
+		<!-- //显示图片 -->
+		<div v-show="$props.imgpathlist!=null">
+			<img :src="imgsrc" alt="" style="width: 200px;margin: 0 auto;">
+		</div>
+
+
 		<div class="count">
 			<div class="star" style="display: flex;">
-				<div v-if="!star_active" @click="starClick">
+				<div>
 					<img src="../../assets/img/star/star.svg" />
-				</div>
-				<div v-else @click="starClick">
-					<img src="../../assets/img/star/star_active.svg" />
 				</div>
 				<div class="star_count" style="padding-top:3px;">
 					<slot name="star"></slot>
@@ -33,17 +37,34 @@
 		name: "Preview",
 		data() {
 			return {
-				star_active: false,
+				imgid: null,
+				imgsrc: null
 			}
 		},
 		methods: {
-			starClick() {
-				this.star_active = !this.star_active;
-				if (this.star_active == true) {
-					this.star_count++
-				} else {
-					this.star_count--
-				}
+
+		},
+		props: {
+			imgpathlist: {
+				type: String,
+				default: null
+			}
+		},
+		created() {
+			const _this=this
+			if (_this.$props.imgpathlist != null) {
+				_this.imgid = _this.$props.imgpathlist.split(",")[0]
+				console.log(_this.imgid)
+				_this.$axios({
+						method: 'get',
+						url: _this.GLOBAL.BASE_URL + '/article/getimg',
+						params: {
+							imgid: _this.imgid
+						}
+					})
+					.then(function(resp) {							
+						_this.imgsrc='data:image/jpg;base64,' + resp.data
+					})
 			}
 
 		}

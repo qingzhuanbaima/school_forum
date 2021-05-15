@@ -1,14 +1,15 @@
 <template>
 	<div>
 		<div v-for="item in result" @click="toArticle(item.id)">
-			<preview>
+			<preview :imgpathlist="item.imgpathlist">
 				<div slot="username">{{item.username}}</div>
-				<div slot="title">{{item.title}}</div>
+				<div slot="title">
+					<div>{{item.title}}</div>
+				</div>
 				<span slot="star" v-bind:starCount="item.star">{{item.star}}</span>
 				<span slot="comment" v-bind:commentCount="item.comment">{{item.comment}}</span>
 			</preview>
 		</div>
-
 		<div style="height: 50px;"></div>
 	</div>
 </template>
@@ -25,20 +26,12 @@
 		components: {
 			Preview
 		},
-		methods:{
-			// toArticle(id){
-			// 	this.$router.push({
-			// 		path: '/article',
-			// 		query: {
-			// 			id:id
-			// 		}
-			// 	})
-			// }
-			toArticle(id){
+		methods: {
+			toArticle(id) {
 				this.$router.push({
 					path: '/article',
 					query: {
-						id:id
+						id: id
 					}
 				})
 			}
@@ -58,6 +51,3 @@
 		}
 	}
 </script>
-
-<style>
-</style>

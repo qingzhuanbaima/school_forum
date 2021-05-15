@@ -6,7 +6,9 @@ import VueAxios from 'vue-axios';
 import axios from 'axios';
 Vue.prototype.$axios = axios;
 
-
+import global_ from './base.vue'
+Vue.prototype.GLOBAL=global_
+axios.default.baseURL=global_.BASE_URL
 
 
 import MintUI from 'mint-ui'

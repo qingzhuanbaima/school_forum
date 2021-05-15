@@ -10,7 +10,7 @@
 
 <script>
 	import MainTabBar from '/src/components/common/tabbar/MainTabBar.vue'
-
+	import axios from 'axios'
 	export default {
 		name: 'app',
 		components: {

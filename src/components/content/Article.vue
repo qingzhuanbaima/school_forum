@@ -14,9 +14,15 @@
 				<div>{{article.article_time}}</div>
 			</div>
 			<div class="articleContent">
-				<textarea name="" id="" readonly="readonly"
-					style="border: none;width: 98%;height:200px;resize: none;">{{article.content}}</textarea>
+				<!-- <textarea name="" id="" readonly="readonly"
+					style="border: none;width: 98%;height:200px;resize: none;">{{article.content}}</textarea> -->
+				<pre style="border: none;width: 98%;height:auto;resize: none;">{{article.content}}</pre>
+				<div v-for="item in imgsrc">
+					<img :src="item" alt="" style="width: 80%;margin: 0 auto;">
+				</div>
 			</div>
+
+
 		</div>
 
 
@@ -41,9 +47,7 @@
 						<slot name="star">{{article.star}}</slot>
 					</div>
 				</div>
-				
 			</div>
-
 		</div>
 
 		<div v-for="item in comments">
@@ -83,7 +87,9 @@
 					comment: null,
 					replytime: null
 				},
-				star_active: false
+				star_active: false,
+				imgids: null,
+				imgsrc: []
 			}
 		},
 		methods: {
@@ -139,21 +145,32 @@
 		},
 		beforeCreate() {
 			const _this = this
+			//取得图片
 			_this.$axios({
 				method: 'get',
-				url: 'http://localhost:8088/article/id',
+				url: _this.GLOBAL.BASE_URL + '/article/id',
 				params: {
 					id: _this.$route.query.id
 				}
 			}).then(function(resp) {
 				_this.article = resp.data;
-				console.log(_this.article)
+				if (resp.data.imgpathlist != null) {
+					_this.imgids = resp.data.imgpathlist.split(",")					
+					for (let imgid of _this.imgids) {
+						_this.$axios({
+								method: 'get',
+								url: _this.GLOBAL.BASE_URL + '/article/getimg',
+								params: {
+									imgid: imgid
+								}
+							})
+							.then(function(resp) {							
+								_this.imgsrc.push('data:image/jpg;base64,' + resp.data)
+							})
+					}
+				}
+
 			})
-		},
-		created() {
-			const _this = this
-			// _this.article=_this.$route.query.item
-			// console.log(_this.$route.query)
 
 			// 取得评论
 			_this.$axios({
@@ -164,10 +181,7 @@
 				}
 			}).then(function(resp) {
 				_this.comments = resp.data;
-				console.log(_this.comments)
 			})
-
-			console.log(_this.$route.path)
 		}
 	}
 </script>
@@ -251,5 +265,21 @@
 		position: fixed;
 		display: flex;
 		bottom: 0;
+	}
+
+
+	pre {
+		white-space: pre-wrap;
+		/* css-3 */
+		white-space: -moz-pre-wrap;
+		/* Mozilla, since 1999 */
+		white-space: -pre-wrap;
+		/* Opera 4-6 */
+		white-space: -o-pre-wrap;
+		/* Opera 7 */
+		word-wrap: break-word;
+		/* Internet Explorer 5.5+ */
+		word-break: break-all;
+		overflow: hidden;
 	}
 </style>
