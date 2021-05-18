@@ -39,7 +39,7 @@
 			const _this = this
 			_this.$axios({
 				method: 'get',
-				url: 'http://localhost:8088/article/club',
+				url: this.GLOBAL.BASE_URL + '/article/club',
 				params: {
 					label: "乒乓"
 				}

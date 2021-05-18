@@ -9,30 +9,30 @@
 		</profile>
 		<nut-tab @tab-switch="tabSwitch" style="margin-bottom: 50px;">
 			<nut-tab-panel tab-title="发帖">
-				<div v-for="item in article">
-					<delete-cell>
-						<div slot="content">
+				<div v-for="item in article" @click="toArticle(item.id)">
+					<!-- <delete-cell > -->
+						<!-- <div slot="content"> -->
 							<preview>
 								<div slot="username">{{item.username}}</div>
 								<div slot="title">{{item.title}}</div>
 								<span slot="star" v-bind:starCount="item.star">{{item.star}}</span>
 								<span slot="comment" v-bind:commentCount="item.comment">{{item.comment}}</span>
 							</preview>
-						</div>
-					</delete-cell>
+						<!-- </div> -->
+					<!-- </delete-cell> -->
 				</div>
 			</nut-tab-panel>
 			<nut-tab-panel tab-title="回复">
-				<div v-for="item in comments">
-					<delete-cell>
-						<div slot="content">
+				<div v-for="item in comments" @click="toArticle(item.aid)">
+					<!-- <delete-cell> -->
+						<!-- <div slot="content"> -->
 							<comment>
 								<div slot="username">{{item.username}}</div>
 								<div slot="time">{{item.replytime}}</div>
 								<div slot="comment">{{item.comment}}</div>
 							</comment>
-						</div>
-					</delete-cell>
+						<!-- </div> -->
+					<!-- </delete-cell> -->
 				</div>
 			</nut-tab-panel>
 		</nut-tab>
@@ -59,6 +59,14 @@
 		methods: {
 			tabSwitch() {
 
+			},
+			toArticle(id) {
+				this.$router.push({
+					path: '/article',
+					query: {
+						id: id
+					}
+				})
 			}
 		},
 		components: {
@@ -96,10 +104,10 @@
 			// 	console.log(res)
 			// })
 
-
+			// 获取用户信息
 			_this.$axios({
 					method: 'get',
-					url: 'http://localhost:8088/user/getuser',
+					url: this.GLOBAL.BASE_URL + '/user/getuser',
 					params: {
 						username: _this.$store.state.user.username
 					}
@@ -108,25 +116,27 @@
 					_this.$store.commit('userLoad', response.data)
 				}),
 
+				// 获取用户帖子
 				_this.$axios({
 					method: 'get',
-					url: 'http://localhost:8088/article/user',
+					url: this.GLOBAL.BASE_URL + '/article/user',
 					params: {
 						username: _this.$store.state.user.username
 					}
 				}).then(function(response) {
-					_this.article = response.data,
+					_this.article = response.data.reverse(),
 						console.log(_this.article)
 				}),
 
+				// 获取用户评论
 				_this.$axios({
 					method: 'get',
-					url: 'http://localhost:8088/comments/byuser',
+					url: this.GLOBAL.BASE_URL + '/comments/byuser',
 					params: {
 						username: _this.$store.state.user.username
 					}
 				}).then(function(response) {
-					_this.comments = response.data,
+					_this.comments = response.data.reverse(),
 						console.log(_this.comments)
 				})
 		}

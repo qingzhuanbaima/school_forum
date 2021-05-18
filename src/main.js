@@ -21,6 +21,18 @@ import '@nutui/nutui/dist/nutui.css';
 
 NutUI.install(Vue);
 
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
+Vue.use(Viewer)
+Viewer.setDefaults({
+	defaultOptions:{
+		zIndex:9999
+	},
+	Options:{
+		"toolbar":false,
+		"fullscreen":true
+	}
+})
 
 new Vue({
   router,

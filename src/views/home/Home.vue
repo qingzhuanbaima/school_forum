@@ -71,7 +71,6 @@
 			MainTopBar,
 			
 		},
-
 	}
 </script>
 

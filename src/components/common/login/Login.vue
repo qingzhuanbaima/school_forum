@@ -107,7 +107,7 @@
 			//登录
 			logBtnClick() {
 				const _this = this
-				this.$axios.post('http://localhost:8088/user/login', this.logInfo)
+				this.$axios.post(_this.GLOBAL.BASE_URL + '/user/login', this.logInfo)
 					.then(function(response) {
 						if (response.data == 'success') {
 							_this.$store.commit('login', _this.logInfo.username)
@@ -129,7 +129,7 @@
 					userReg.username = this.regInfo.username,
 						userReg.password = this.regInfo.password1,
 
-						this.$axios.post('http://localhost:8088/user/register', userReg)
+						this.$axios.post(this.GLOBAL.BASE_URL + '/user/register', userReg)
 						.then(function(response) {
 							if (response.data != 'success') {
 								alert(response.data)

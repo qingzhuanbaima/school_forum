@@ -74,7 +74,7 @@
 				
 				console.log(_this.lostForm)
 				
-				_this.$axios.post('http://localhost:8088/lost/lostPost', this.lostForm)
+				_this.$axios.post(this.GLOBAL.BASE_URL + '/lost/lostPost', this.lostForm)
 					.then(function(response) {
 						if (response.data == 'success') {
 							location.reload()
@@ -86,7 +86,7 @@
 			const _this = this
 			_this.$axios({
 				method: 'get',
-				url: 'http://localhost:8088/lost/findAll',
+				url: this.GLOBAL.BASE_URL + '/lost/findAll',
 			}).then(function(resp) {
 				_this.allLost = resp.data;
 				console.log(_this.allLost)

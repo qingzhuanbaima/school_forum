@@ -4,9 +4,7 @@
 			<div class="cellContent">
 				<slot name="content"></slot>
 			</div>
-			<div class="cellButton">删 除</div>
 		</div>
-
 	</div>
 </template>
 

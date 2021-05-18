@@ -40,7 +40,7 @@
 			const _this = this
 			_this.$axios({
 				method: 'get',
-				url: 'http://localhost:8088/article/label',
+				url: this.GLOBAL.BASE_URL + '/article/label',
 				params: {
 					label: "影音"
 				}

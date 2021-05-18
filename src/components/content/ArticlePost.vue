@@ -136,7 +136,7 @@
 						_this.$axios.post(_this.GLOBAL.BASE_URL + '/article/imgsave', _this.imgList)
 					})
 					.then(
-
+						_this.$router.go(-1)
 					)
 
 				// _this.$axios({

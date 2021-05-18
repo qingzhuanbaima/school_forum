@@ -4,13 +4,40 @@
 			<div slot="title" style="font-weight: 700;text-align: center; width: 100%;">公告标题</div>
 			<span slot="content">公告正文</span>
 		</notice-item>
-		<div v-for="item in imgsrc">
-			<img :src="item" alt="" style="width: 80%;margin: 0 auto;">
+
+		<!-- <div style="display: flex;flex-wrap: wrap;margin: 0 auto;">
+			<span class="img" v-for="item in imgsrc" >
+				<img :src="item" alt="" >
+			</span>
+		</div> -->
+		
+		<div style="display: flex;flex-wrap: wrap;margin: 0 auto;">
+			<span class="img" v-for="item in imgsrc" >
+				<viewer >
+					<img :src="item" alt="" >
+				</viewer>
+			</span>
 		</div>
+		
+			
 		
 	</div>
 </template>
-
+<style>
+	.img{
+		width: 33%;
+		height: 0;
+		padding-bottom: 31%;
+		position: relative;
+	}
+	.img img{
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		margin: 2px;
+		z-index: 99;
+	}
+</style>
 <script>
 	import NoticeItem from '../../components/content/public/NoticeItem.vue'
 	export default {
@@ -32,7 +59,7 @@
 		computed: {
 
 		},
-		created() {
+		beforeCreate() {
 			const _this = this
 			_this.$axios({
 				method: 'get',
@@ -65,6 +92,3 @@
 		}
 	}
 </script>
-
-<style>
-</style>

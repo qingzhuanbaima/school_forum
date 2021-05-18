@@ -65,7 +65,7 @@
 				
 				console.log(_this.sugForm)
 				
-				_this.$axios.post('http://localhost:8088/suggestion/sugPost', this.sugForm)
+				_this.$axios.post(this.GLOBAL.BASE_URL + '/suggestion/sugPost', this.sugForm)
 					.then(function(response) {
 						if (response.data == 'success') {
 							location.reload()
@@ -75,7 +75,7 @@
 		},
 		created() {
 			const _this = this
-			this.$axios.get('http://localhost:8088/suggestion/findAll').then(function(resp) {
+			this.$axios.get(this.GLOBAL.BASE_URL + '/suggestion/findAll').then(function(resp) {
 				_this.result = resp.data;
 				console.log(_this.result)
 			})

@@ -17,8 +17,15 @@
 				<!-- <textarea name="" id="" readonly="readonly"
 					style="border: none;width: 98%;height:200px;resize: none;">{{article.content}}</textarea> -->
 				<pre style="border: none;width: 98%;height:auto;resize: none;">{{article.content}}</pre>
-				<div v-for="item in imgsrc">
+				<!-- <div v-for="item in imgsrc">
 					<img :src="item" alt="" style="width: 80%;margin: 0 auto;">
+				</div> -->
+				<div style="display: flex;flex-wrap: wrap;margin: 0 auto;">
+					<span class="img" v-for="item in imgsrc" >
+						<viewer :images="imgsrc">
+							<img :src="item" alt="" >
+						</viewer>
+					</span>
 				</div>
 			</div>
 
@@ -116,7 +123,7 @@
 				_this.mycmt.replytime = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss;
 
 
-				_this.$axios.post('http://localhost:8088/comments/addcomment', this.mycmt)
+				_this.$axios.post(_this.GLOBAL.BASE_URL + '/comments/addcomment', this.mycmt)
 					.then(function(response) {
 						if (response.data == 'success') {
 							_this.mycmt.comment = null
@@ -134,7 +141,7 @@
 					this.star_active = true,
 						this.$axios({
 							method: 'post',
-							url: 'http://localhost:8088/article/star',
+							url: this.GLOBAL.BASE_URL + '/article/star',
 							params: {
 								id: this.$route.query.id
 							}
@@ -175,7 +182,7 @@
 			// 取得评论
 			_this.$axios({
 				method: 'get',
-				url: 'http://localhost:8088/comments/getcomment',
+				url: _this.GLOBAL.BASE_URL + '/comments/getcomment',
 				params: {
 					id: _this.$route.query.id
 				}
@@ -281,5 +288,18 @@
 		/* Internet Explorer 5.5+ */
 		word-break: break-all;
 		overflow: hidden;
+	}
+	
+	.img{
+		width: 33%;
+		height: 0;
+		padding-bottom: 31%;
+		position: relative;
+	}
+	.img img{
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		margin: 2px;
 	}
 </style>

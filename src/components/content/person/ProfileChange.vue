@@ -27,7 +27,7 @@
 				console.log(_this.user)
 				_this.$axios({
 					method:'put',
-					url:'http://localhost:8088/user/updateUser',
+					url:_this.GLOBAL.BASE_URL + '/user/updateUser',
 					data:_this.user
 				}).then(function(response){
 					console.log(response)

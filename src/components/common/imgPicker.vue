@@ -29,6 +29,7 @@
 				//预览图片
 				let src = window.URL.createObjectURL(e.target.files[0]);
 				this.uploadImg.push(src);
+				console.log(e.target.files)
 				//将图片文件转化成base64格式图片
 				var reader = new FileReader();
 
