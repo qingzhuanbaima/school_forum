@@ -45,7 +45,7 @@
 					label: "学习"
 				}
 			}).then(function(resp) {
-				_this.result = resp.data;
+				_this.result = resp.data.reverse();
 				console.log(_this.result)
 			})
 		}

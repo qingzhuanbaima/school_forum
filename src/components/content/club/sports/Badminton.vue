@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<page-head></page-head>
 		<div v-for="item in result" @click="toArticle(item.id)">
 			<preview>
 				<div slot="username">{{item.username}}</div>
@@ -15,6 +16,7 @@
 
 <script>
 	import Preview from '../../Preview.vue'
+	import pageHead from '../../../common/pageHead.vue'
 	export default {
 		name: "Badminton",
 		data() {
@@ -23,7 +25,8 @@
 			}
 		},
 		components: {
-			Preview
+			Preview,
+			pageHead
 		},
 		methods:{
 			toArticle(id){

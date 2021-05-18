@@ -45,7 +45,7 @@
 					label: "数码"
 				}
 			}).then(function(resp) {
-				_this.result = resp.data;
+				_this.result = resp.data.reverse();
 				console.log(_this.result)
 			})
 		}

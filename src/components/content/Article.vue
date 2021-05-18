@@ -6,7 +6,7 @@
 				<span>返回</span>
 			</div>
 			<div class="headCenter">{{article.club}}</div>
-			<div class="headRight"></div>
+			<div class="headRight"><button @click="deleteArticle" style="border: none;color: #1989FA;background-color:#f7f7f7 ;" v-if="article.username==$store.state.user.username">删除</button></div>
 		</div>
 		<div class="Article">
 			<div class="articleTitle">{{article.title}}</div>
@@ -148,6 +148,18 @@
 						})
 					this.article.star++
 				}
+			},
+			deleteArticle(){
+				const _this=this
+				_this.$axios({
+					method:'delete',
+					url: _this.GLOBAL.BASE_URL + '/article/deletearticle',
+					params: {
+						id: _this.$route.query.id
+					}
+				}).then(function(){
+					_this.$router.go(-1)
+				})
 			}
 		},
 		beforeCreate() {
@@ -228,6 +240,8 @@
 
 	.headRight {
 		flex: 1;
+		text-align: right;
+		margin-right: 15px;
 	}
 
 	.articleTitle {

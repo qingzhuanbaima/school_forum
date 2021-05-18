@@ -46,7 +46,7 @@
 					label: "生活"
 				}
 			}).then(function(resp) {
-				_this.result = resp.data;
+				_this.result = resp.data.reverse();
 				console.log(_this.result)
 			})
 		}
