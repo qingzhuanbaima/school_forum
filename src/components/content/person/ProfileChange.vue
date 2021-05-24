@@ -9,7 +9,6 @@
 		<div style="text-align: center;">
 			<mt-button type="primary" style="width: 80%;" @click="updateUser">提交</mt-button>
 		</div>
-
 	</div>
 </template>
 

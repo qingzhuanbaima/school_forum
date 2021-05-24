@@ -34,8 +34,6 @@ Viewer.setDefaults({
 	}
 })
 
-import pageHead from './components/common/pageHead.vue'
-Vue.use(pageHead)
 
 new Vue({
   router,

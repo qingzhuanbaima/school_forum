@@ -15,7 +15,7 @@
 				<div class="connect">联系:<slot name="connect"></slot></div>
 			</div>
 		</div>
-		<div class="introduction">个人介绍:<slot name="introduction"></slot></div>
+		<div style="text-indent: 15px;">个人介绍:<slot name="introduction"></slot></div>
 	</div>
 
 

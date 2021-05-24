@@ -11,7 +11,7 @@
 			</div>
 		</div>
 		<div class="suggestion">
-			<span style="margin-left: 10px;width: 60px;">留言：</span>
+			<div style="margin-left: 10px;width: 60px;">留言：</div>
 			<slot name="suggestion"></slot>
 		</div>
 	</div>
@@ -41,5 +41,6 @@
 	.suggestion{
 		width: 100%;
 		height: auto;
+		display: flex;
 	}
 </style>

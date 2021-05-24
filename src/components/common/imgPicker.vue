@@ -30,6 +30,7 @@
 				let src = window.URL.createObjectURL(e.target.files[0]);
 				this.uploadImg.push(src);
 				console.log(e.target.files)
+				console.log(src)
 				//将图片文件转化成base64格式图片
 				var reader = new FileReader();
 
@@ -40,7 +41,7 @@
 						imgid: null,
 						imgsrc: null
 					}
-					imginfo.imgid = this.uploadImg[this.uploadImg.length - 1].split("8080/")[1].toString()
+					imginfo.imgid = this.uploadImg[this.uploadImg.length - 1].split("8080/")[1]
 					imginfo.imgsrc = reader.result.split("base64,")[1]
 					this.imgList.push(imginfo)
 					this.$emit('imglist', this.imgList)

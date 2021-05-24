@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<page-head></page-head>
+		<page-head>
+			
+		</page-head>
 		<div v-for="item in result" @click="toArticle(item.id)">
 			<preview>
 				<div slot="username">{{item.username}}</div>

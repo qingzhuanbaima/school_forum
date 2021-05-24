@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="../Scripts/jquery.min.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/jquery.cookie.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/jquery.extend.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/jquery.easyui.min.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/common.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/constant.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/JSEncrypt.js?r=2021043008430759"></script>
+    <!--[if lt IE 9]>
+        <script type="text/javascript" src="../Scripts/json2.js?r=2021043008430759"></script>
+    <![endif]-->
+    <!--富文本编辑器-begin-->
+    <script type="text/javascript" src="../Scripts/UEditor/ueditor.config.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/UEditor/ueditor.all.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/UEditor/ueditor.parse.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/UEditor/lang/zh-cn/zh-cn.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/UEditor/kityformula-plugin/addKityFormulaDialog.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/UEditor/kityformula-plugin/getKfContent.js?r=2021043008430759"></script>
+    <script type="text/javascript" src="../Scripts/UEditor/kityformula-plugin/defaultFilterFix.js?r=2021043008430759"></script>
+    <!--富文本编辑器-end-->
+
+    <link rel="stylesheet" href="../Themes/default/base.css?r=2021043008430759" />
+    <link rel="stylesheet" href="../Themes/default/easyui.css?r=2021043008430759" />
+    <title></title>
+</head>
+<body>
+    <div class="main">
+        <div class="Dnews">
+            <div id="divNoticeHead" class="Dheadline"></div>
+            <!--下部分内容-->
+            <div class="Darticle">
+                <div id="pNoticeContent"></div>
+                <!--下载字样-->
+                <a id="aNoticeAttachment" class="Ddownload" href="#" style="display: none;"> 下载</a>
+                <!--上 下/一条的盒子-->
+                <div id="divNoticePreOrNext" class="Dtwo"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            var noticeId = getUrlParam("noticeId");//例:303?r=0.38275473
+            if (noticeId.indexOf("?") >= 0) {
+                noticeId = noticeId.substring(0, noticeId.indexOf("?"));
+            };
+            var typeId = getUrlParam("typeId");
+            if (typeId.indexOf("?") >= 0) {
+                typeId = typeId.substring(0, typeId.indexOf("?"));
+            };
+            AddClickRate(noticeId);
+            GetNoticeDetail(noticeId);
+            GetPreAndNextNoticeTitle(noticeId, typeId);
+        });
+
+        //点击率
+        function AddClickRate(id) {
+            $.ajax({
+                url: "../Handler/NoticesHandler.ashx",
+                data: { action: "AddClickRate", noticeId: id },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                success: function (data) {
+                    if (!data.isSuccess) {
+                        console.log(data);
+                    };
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        };
+
+        //获取公告详细信息
+        function GetNoticeDetail(id) {
+            $.ajax({
+                url: "../Handler/NoticesLoginHandler.ashx",
+                data: { "type": "4", "noticeId": id },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                success: function (data) {
+                    if (data.isSuccess) {
+                        AnalyzeNoticeDetailJsonResult(data);
+                    };
+                    //else {
+                    //    $("#aNoticeAttachment").removeAttr("href").text("暂无");//请求失败时按钮失效
+                    //}
+                },
+                complete: function () {
+                }
+            });
+        };
+
+        //对返回的公告详细信息进行处理
+        function AnalyzeNoticeDetailJsonResult(result) {
+            if (result == null) {
+                return;
+            };
+            $("#divNoticeHead,#pNoticeContent").empty();
+            var json = result.rows[0];
+            $("#divNoticeHead").append("<h3>" + json.标题 + "</h3><p class=\"NpublishTime\">" + dateFormat(json.创建时间, "yyyy-MM-dd hh:mm") + "</p>");
+            $("#pNoticeContent").append(retrieveUnequa(json['内容']));
+            uParseUEditor(["pNoticeContent"]);
+            var attachMent = json['附件'];
+            //if (attachMent == null) {
+            //    //$("#aNoticeAttachment").removeAttr("href").text("暂无");
+            //    $("#aNoticeAttachment").empty();
+            //} else {
+            if (attachMent != null) {
+                $("#aNoticeAttachment").css("display", "inline-block");
+                $("#aNoticeAttachment").attr({ "onclick": 'newDownloadAttachent("' + attachMent + '")', download: json['文件名'] }).text(json['文件名']);
+            };
+        };
+
+        //加载上下一条信息
+        function GetPreAndNextNoticeTitle(id, typeId) {
+            $.ajax({
+                url: "../Handler/NoticesLoginHandler.ashx",
+                data: { "type": "3", "noticeId": id, "typeID": typeId },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                success: function (data) {
+                    if (data.isSuccess) {
+                        var json = data.rows;
+                        if (json.length == 0) {
+                            return;
+                        }
+                        $("#divNoticePreOrNext").empty();
+                        if (json.length > 1) {
+                            var innerText = "";
+                            innerText += CreatePreAndNextNoticeHtml(json[0]["标题"], json[0]["ID"], false, typeId);
+                            innerText += CreatePreAndNextNoticeHtml(json[1]["标题"], json[1]["ID"], true, typeId);
+                            $("#divNoticePreOrNext").append(innerText);
+                        } else {
+                            var isNext = parseInt(json[0]["ID"]) > parseInt(id);
+                            $("#divNoticePreOrNext").append(CreatePreAndNextNoticeHtml(json[0]["标题"], json[0]["ID"], isNext, typeId));
+                        };
+                    };
+                },
+                complete: function () {
+                }
+            });
+        };
+
+        //创建上/下一条的a标签的HTML内容
+        function CreatePreAndNextNoticeHtml(title, noticeId, isNext, typeId) {
+            var htmlText = "";
+            if (isNext) {
+                htmlText = "<a title='" + title + "' href='Details.html?noticeId=" + noticeId + "&typeId=" + typeId + "'>下一条：" + title + "</a>";
+            } else {
+                htmlText = "<a title='" + title + "' href='Details.html?noticeId=" + noticeId + "&typeId=" + typeId + "'>上一条：" + title + "</a>";
+            };
+            return htmlText;
+        };
+    </script>
+</body>
+</html>

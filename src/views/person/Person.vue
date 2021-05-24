@@ -26,7 +26,7 @@
 				<div v-for="item in comments" @click="toArticle(item.aid)">
 					<!-- <delete-cell> -->
 						<!-- <div slot="content"> -->
-							<comment>
+							<comment :cid="item.cid">
 								<div slot="username">{{item.username}}</div>
 								<div slot="time">{{item.replytime}}</div>
 								<div slot="comment">{{item.comment}}</div>

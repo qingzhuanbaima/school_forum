@@ -38,6 +38,9 @@
 				</div>
 			</div>
 		</div>
+		<div style="text-align: center;">
+			<router-link to="/home" ><<回到首页</router-link>
+		</div>
 	</div>
 </template>
 

@@ -6,7 +6,10 @@
 				<span>返回</span>
 			</div>
 			<div class="headCenter">{{article.club}}</div>
-			<div class="headRight"><button @click="deleteArticle" style="border: none;color: #1989FA;background-color:#f7f7f7 ;" v-if="article.username==$store.state.user.username">删除</button></div>
+			<div class="headRight">
+				<button @click="deleteArticle" style="border: none;color: #1989FA;background-color:#f7f7f7 ;"
+					v-if="article.username==$store.state.user.username">删除</button>
+			</div>
 		</div>
 		<div class="Article">
 			<div class="articleTitle">{{article.title}}</div>
@@ -20,10 +23,10 @@
 				<!-- <div v-for="item in imgsrc">
 					<img :src="item" alt="" style="width: 80%;margin: 0 auto;">
 				</div> -->
-				<div style="display: flex;flex-wrap: wrap;margin: 0 auto;">
-					<span class="img" v-for="item in imgsrc" >
+				<div style="display: flex;flex-wrap: wrap;margin: 0 auto;" v-if="article.imgpathlist!=''">
+					<span class="img" v-for="item in imgsrc">
 						<viewer :images="imgsrc">
-							<img :src="item" alt="" >
+							<img :src="item" alt="">
 						</viewer>
 					</span>
 				</div>
@@ -58,7 +61,7 @@
 		</div>
 
 		<div v-for="item in comments">
-			<comment>
+			<comment :cid="item.cid">
 				<div slot="username">{{item.username}}</div>
 				<div slot="time">{{item.replytime}}</div>
 				<div slot="comment">{{item.comment}}</div>
@@ -70,7 +73,7 @@
 		<div class="addcmt">
 			<nut-textinput v-model="mycmt.comment" placeholder="请输入内容" @focus="onFocus" :clearBtn="true"
 				:disabled="false" style="width: 85%;" />
-			<button style="width: 15%;height: auto;" @click="addComment">评论</button>
+			<button style="width: 15%;height: auto;" @click="addComment()">评论</button>
 		</div>
 	</div>
 </template>
@@ -120,19 +123,19 @@
 				let hh = new Date().getHours();
 				let mf = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes();
 				let ss = new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds();
-				_this.mycmt.replytime = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss;
+				let replytime = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss;
 
 
+				_this.mycmt.replytime = replytime
 				_this.$axios.post(_this.GLOBAL.BASE_URL + '/comments/addcomment', this.mycmt)
 					.then(function(response) {
 						if (response.data == 'success') {
 							_this.mycmt.comment = null
 							location.reload()
-						} else {
-
 						}
-						// console.log(response)
 					})
+
+
 			},
 
 			//点赞
@@ -149,15 +152,15 @@
 					this.article.star++
 				}
 			},
-			deleteArticle(){
-				const _this=this
+			deleteArticle() {
+				const _this = this
 				_this.$axios({
-					method:'delete',
+					method: 'delete',
 					url: _this.GLOBAL.BASE_URL + '/article/deletearticle',
 					params: {
 						id: _this.$route.query.id
 					}
-				}).then(function(){
+				}).then(function() {
 					_this.$router.go(-1)
 				})
 			}
@@ -173,8 +176,9 @@
 				}
 			}).then(function(resp) {
 				_this.article = resp.data;
+				console.log(_this.article)
 				if (resp.data.imgpathlist != null) {
-					_this.imgids = resp.data.imgpathlist.split(",")					
+					_this.imgids = resp.data.imgpathlist.split(",")
 					for (let imgid of _this.imgids) {
 						_this.$axios({
 								method: 'get',
@@ -183,7 +187,7 @@
 									imgid: imgid
 								}
 							})
-							.then(function(resp) {							
+							.then(function(resp) {
 								_this.imgsrc.push('data:image/jpg;base64,' + resp.data)
 							})
 					}
@@ -199,8 +203,10 @@
 					id: _this.$route.query.id
 				}
 			}).then(function(resp) {
-				_this.comments = resp.data;
+				console.log(resp.data)
+				_this.comments = resp.data.reverse();
 			})
+
 		}
 	}
 </script>
@@ -303,17 +309,18 @@
 		word-break: break-all;
 		overflow: hidden;
 	}
-	
-	.img{
+
+	.img {
 		width: 33%;
 		height: 0;
 		padding-bottom: 31%;
 		position: relative;
 	}
-	.img img{
-		width: 100%;
-		height: 100%;
+
+	.img img {
+		width: 96%;
+		height: 96%;
 		position: absolute;
-		margin: 2px;
+
 	}
 </style>

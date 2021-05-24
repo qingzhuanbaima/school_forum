@@ -23,6 +23,7 @@
 		<suggest-item v-for="(item,index) in result" :key="index">
 			<span slot="id">{{item.username}}</span>
 			<span slot="time">{{item.suggest_time}}</span>
+			<!-- <pre slot="suggestion" style="border: none;width: 98%;height:auto;resize: none;">{{item.suggestion}}</pre> -->
 			<textarea  slot="suggestion" name="" id=""  style="border: none;resize: none;width: 80%;height: 100px;line-height: 30px;">{{item.suggestion}}</textarea>
 		</suggest-item>
 	</div>

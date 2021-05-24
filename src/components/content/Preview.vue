@@ -8,7 +8,7 @@
 		</div>
 
 		<!-- //显示图片 -->
-		<div v-show="$props.imgpathlist!=null">
+		<div v-show="$props.imgpathlist!='' && $props.imgpathlist!=null ">
 			<img :src="imgsrc" alt="" style="width: 150px;height: 150px;margin: 0 auto;margin-left: 10px;">
 		</div>
 
