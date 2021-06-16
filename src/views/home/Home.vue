@@ -2,8 +2,12 @@
 	<div class="home">
 		<!-- 搜索 -->
 		<div class="search" style="background-color: #FFFFFF;z-index: 10;display: flex;">
-			<div class="logo">+++</div>
+			<div class="logo">
+				<img src="../../assets/img/logo.svg" alt="" style="width: 40px;margin: 5px;">
+			</div>
+			
 			<nut-searchbar v-model="val" placeText="" style="margin: 10px 0;height: 30px;"></nut-searchbar>
+			<!-- <div style="margin: 10px 0;height: 30px;width: 80%;text-align: center;line-height: 30px;font-size: 18px;">校园论坛</div> -->
 
 			<div class="publish" @click="publish">
 				<img src="../../assets/img/publish.png"

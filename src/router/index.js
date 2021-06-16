@@ -124,7 +124,7 @@ const routes = [
 		component: Public,
 		children: [{
 				path: '',
-				redirect: 'notice'
+				redirect: 'lost'
 			},
 			{
 				path: 'notice',

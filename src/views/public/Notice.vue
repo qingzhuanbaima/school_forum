@@ -2,9 +2,10 @@
 	<div>
 		<notice-item>
 			<div slot="title" style="font-weight: 700;text-align: center; width: 100%;">公告标题</div>
-			<span slot="content">公告正文</span>
+			<pre slot="content" style="border: none;width: 98%;height:auto;resize: none;"></pre>
 		</notice-item>	
 	</div>
+	
 </template>
 <style>
 	.img{
@@ -30,8 +31,7 @@
 		},
 		data() {
 			return {
-				imgids: null,
-				imgsrc: []
+				content:"as dbsajdbjdbjas jdn jasn jkdn ajk ndka ndkan dkd,jnk dakj nkajnd kadnkan kn dn d dn  "
 			}
 		},
 		methods: {

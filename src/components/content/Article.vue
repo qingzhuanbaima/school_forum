@@ -134,8 +134,6 @@
 							location.reload()
 						}
 					})
-
-
 			},
 
 			//点赞
@@ -167,7 +165,7 @@
 		},
 		beforeCreate() {
 			const _this = this
-			//取得图片
+			//取得文章
 			_this.$axios({
 				method: 'get',
 				url: _this.GLOBAL.BASE_URL + '/article/id',
@@ -175,11 +173,13 @@
 					id: _this.$route.query.id
 				}
 			}).then(function(resp) {
+				// 根据文章中的图片列表数据取得图片
 				_this.article = resp.data;
 				console.log(_this.article)
 				if (resp.data.imgpathlist != null) {
 					_this.imgids = resp.data.imgpathlist.split(",")
 					for (let imgid of _this.imgids) {
+						// 获取图片的base64编码
 						_this.$axios({
 								method: 'get',
 								url: _this.GLOBAL.BASE_URL + '/article/getimg',
@@ -188,6 +188,7 @@
 								}
 							})
 							.then(function(resp) {
+								// 对base64编码进行字符串拼接,使浏览器获取文件类型
 								_this.imgsrc.push('data:image/jpg;base64,' + resp.data)
 							})
 					}

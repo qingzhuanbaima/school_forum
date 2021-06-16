@@ -41,9 +41,13 @@
 						imgid: null,
 						imgsrc: null
 					}
+					//截取图片的哈希字符串作为图片的名称
 					imginfo.imgid = this.uploadImg[this.uploadImg.length - 1].split("8080/")[1]
+					// 截取图片的base64码
 					imginfo.imgsrc = reader.result.split("base64,")[1]
+					// 将图片信息插入图片列表
 					this.imgList.push(imginfo)
+					//向父组件传递图片列表
 					this.$emit('imglist', this.imgList)
 				}
 				reader.readAsDataURL(e.target.files[0])

@@ -1,6 +1,8 @@
 <template>
 	<div style="width: 100%;height: auto; overflow: hidden;">
-		<div class="logo1">这里是logo</div>
+		<div class="logo1">
+			<img style="width: 75px;" src="../../../assets/img/logo.svg" alt="">
+		</div>
 		<div class="loginAndregist" v-bind:class="getClass()">
 			<div class="login">
 				<div>
@@ -154,7 +156,7 @@
 	.logo1 {
 		width: 75px;
 		height: 75px;
-		background-color: #000000;
+		/* background-color: #000000; */
 		margin: 0 auto;
 		margin-top: 100px;
 	}
